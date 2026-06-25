@@ -4,16 +4,16 @@ CURSO: SC-304 Estructura de Datos
 UNIVERSIDAD FIDÉLITAS
 
 --------------------------------------------------
-1. NÚMERO DE GRUPO ASIGNADO: Grupo # [Ingresar número aquí]
+1. NÚMERO DE GRUPO ASIGNADO: Grupo #6
 --------------------------------------------------
 
 --------------------------------------------------
 2. INTEGRANTES DEL GRUPO:
 --------------------------------------------------
-- Integrante 1: [Nombre Completo] - [Cédula/Carné]
-- Integrante 2: [Nombre Completo] - [Cédula/Carné]
-- Integrante 3: [Nombre Completo] - [Cédula/Carné]
-- [Opcional] Integrante 4: [Nombre Completo] - [Cédula/Carné]
+- Alfaro Robinson Daneysha Naomy
+- Moreira Soto Mauricio Gerardo 
+- Rodríguez Martínez Cindy Michelle
+- Tijerino Vargas Juan Jose
 
 --------------------------------------------------
 INSTRUCCIONES DE EJECUCIÓN (NETBEANS):
