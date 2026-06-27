@@ -1,0 +1,3 @@
+Depósitos,Seguro de Vida / Fraude
+Retiros,Retiro sin Tarjeta (Cajeros)
+Cambio de Divisas,Cuentas de Ahorro / Inversión

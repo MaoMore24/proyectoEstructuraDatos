@@ -4,12 +4,17 @@ CURSO: SC-304 Estructura de Datos
 UNIVERSIDAD FIDÉLITAS
 
 --------------------------------------------------
+<<<<<<< Updated upstream
 1. NÚMERO DE GRUPO ASIGNADO: Grupo #6
+=======
+1. NÚMERO DE GRUPO ASIGNADO: Grupo # 2
+>>>>>>> Stashed changes
 --------------------------------------------------
 
 --------------------------------------------------
 2. INTEGRANTES DEL GRUPO:
 --------------------------------------------------
+<<<<<<< Updated upstream
 - Alfaro Robinson Daneysha Naomy
 - Moreira Soto Mauricio Gerardo 
 - Rodríguez Martínez Cindy Michelle
@@ -34,3 +39,8 @@ ESTRUCTURAS DE DATOS IMPLEMENTADAS (DESDE CERO):
 - Grafos (Grafo.java): Implementado con matriz de adyacencia sobre arreglos bidimensionales nativos para asociar trámites con productos complementarios.
 - Persistencia en Archivos: Carga/Guardado de configuraciones (prod.txt), histórico (db_historico.txt) y colas activas ante apagones (colas_temp.txt).
 - Web Service BCCR (BCCRService.java): Consumo del tipo de cambio con HTTP GET nativo y mecanismo de fallback robusto.
+=======
+- Integrante 1: Mauricio Moreira Soto
+- Integrante 2: Daneysha Alfaro Robins
+- Integrante 3: Cindy Rodríguez Martínez
+>>>>>>> Stashed changes
