@@ -40,10 +40,10 @@ public class Main {
     private static boolean login() {
         int intentos = 3;
         while (intentos > 0) {
-            String usuario  = JOptionPane.showInputDialog(null, "Ingrese su usuario:", "Login", JOptionPane.QUESTION_MESSAGE);
+            String usuario  = JOptionPane.showInputDialog(null, "Ingrese su usuario:");
             if (usuario == null) return false;
 
-            String password = JOptionPane.showInputDialog(null, "Ingrese su contraseña:", "Login", JOptionPane.QUESTION_MESSAGE);
+            String password = JOptionPane.showInputDialog(null, "Ingrese su contraseña:");
             if (password == null) return false;
 
             for (String[] u : USUARIOS) {
@@ -55,7 +55,7 @@ public class Main {
 
             intentos--;
             if (intentos > 0) {
-                JOptionPane.showMessageDialog(null, "Credenciales incorrectas. Intentos restantes: " + intentos, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Credenciales incorrectas. Intentos restantes: ");
             }
         }
         return false;
@@ -75,11 +75,11 @@ public class Main {
                 "Módulo 0: Configuración", JOptionPane.INFORMATION_MESSAGE);
         } else {
             // Primera ejecución: solicitar datos
-            JOptionPane.showMessageDialog(null, "Primera ejecución. Configure el sistema.", "Módulo 0: Configuración", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Primera ejecución. Configure el sistema.");
 
             String banco = "";
             while (banco.trim().isEmpty()) {
-                banco = JOptionPane.showInputDialog(null, "Ingrese el nombre del Banco:", "Configuración", JOptionPane.QUESTION_MESSAGE);
+                banco = JOptionPane.showInputDialog(null, "Ingrese el nombre del Banco:");
                 if (banco == null) System.exit(0);
             }
             nombreBanco = banco.trim();
@@ -91,16 +91,16 @@ public class Main {
                 try {
                     numCajas = Integer.parseInt(entrada.trim());
                     if (numCajas < 3) {
-                        JOptionPane.showMessageDialog(null, "La cantidad mínima de cajas es 3.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "La cantidad mínima de cajas es 3.");
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Ingrese un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Ingrese un número entero válido.");
                 }
             }
             cantCajas = numCajas;
 
             archivos.escribirConfiguracion(nombreBanco, cantCajas);
-            JOptionPane.showMessageDialog(null, "Configuración guardada en prod.txt.", "Configuración Completa", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Configuración guardada en prod.txt.");
         }
     }
 
@@ -120,7 +120,7 @@ public class Main {
         do {
             opcion = JOptionPane.showInputDialog(null,
                 "--- SISTEMA BANCARIO: " + nombreBanco.toUpperCase() + " ---\n\n" +
-                "1) Módulo 1.1 - Crear Tiquete\n" +
+                "1) Crear Tiquete\n" +
                 "2) Atender Siguiente Cliente\n" +
                 "3) Ver Estado de Filas\n" +
                 "4) Salir\n\n" +
@@ -134,7 +134,7 @@ public class Main {
                 case "2": atenderCliente();      break;
                 case "3": verEstadoFilas();       break;
                 case "4": JOptionPane.showMessageDialog(null, "¡Hasta luego!"); break;
-                default:  JOptionPane.showMessageDialog(null, "Seleccione una opción válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                default:  JOptionPane.showMessageDialog(null, "Seleccione una opción válida.");
             }
         } while (!opcion.equals("4"));
     }
@@ -144,29 +144,29 @@ public class Main {
         // 1. Nombre
         String nombre = "";
         while (nombre.trim().isEmpty()) {
-            nombre = JOptionPane.showInputDialog(null, "Nombre del cliente:", "Crear Tiquete", JOptionPane.QUESTION_MESSAGE);
+            nombre = JOptionPane.showInputDialog(null, "Nombre del cliente:");
             if (nombre == null) return;
         }
 
         // 2. ID / Cédula
         String id = "";
         while (id.trim().isEmpty()) {
-            id = JOptionPane.showInputDialog(null, "Cédula / ID del cliente:", "Crear Tiquete", JOptionPane.QUESTION_MESSAGE);
+            id = JOptionPane.showInputDialog(null, "Cédula / ID del cliente:");
             if (id == null) return;
         }
 
         // 3. Edad
         int edad = -1;
         while (edad < 0 || edad > 120) {
-            String entrada = JOptionPane.showInputDialog(null, "Edad del cliente:", "Crear Tiquete", JOptionPane.QUESTION_MESSAGE);
+            String entrada = JOptionPane.showInputDialog(null, "Edad del cliente:");
             if (entrada == null) return;
             try {
                 edad = Integer.parseInt(entrada.trim());
                 if (edad < 0 || edad > 120) {
-                    JOptionPane.showMessageDialog(null, "Edad fuera de rango (0-120).", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Edad fuera de rango (0-120).");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Ingrese un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese un número entero válido.");
             }
         }
 
@@ -176,30 +176,35 @@ public class Main {
 
         int respPref = JOptionPane.showConfirmDialog(null,
             "¿El cliente califica para atención Preferencial?\n(Discapacidad, Embarazo, Adulto Mayor, Empresarial)",
-            "Tipo de Cliente", JOptionPane.YES_NO_OPTION);
+    "Tipo de Cliente", 0);
 
-        if (respPref == JOptionPane.YES_OPTION) {
+        if (respPref == 0) {
             tipo = "P";
             String condicion = JOptionPane.showInputDialog(null,
                 "Seleccione la condición:\n" +
                 "1) Discapacidad / Embarazo\n" +
                 "2) Adulto Mayor\n" +
-                "3) Empresarial",
-                "Condición Preferencial", JOptionPane.QUESTION_MESSAGE);
+                "3) Empresarial");
 
-            if ("1".equals(condicion))      prioridad = 1;
-            else if ("2".equals(condicion)) prioridad = 2;
-            else                            prioridad = 3;
+            if ("1".equals(condicion)) {
+                prioridad = 1;
+            } else if ("2".equals(condicion)) {
+                prioridad = 2;
+            } else {
+                prioridad = 3;
+            }
 
         } else {
             String cantTramites = JOptionPane.showInputDialog(null,
                 "Seleccione la cantidad de trámites:\n" +
                 "1) Un solo trámite (Caja Rápida)\n" +
-                "2) Dos o más trámites (Caja Regular)",
-                "Cantidad de Trámites", JOptionPane.QUESTION_MESSAGE);
+                "2) Dos o más trámites (Caja Regular)");
 
-            if ("1".equals(cantTramites)) tipo = "A";
-            else                          tipo = "B";
+            if ("1".equals(cantTramites)) {
+                tipo = "A";
+            } else {
+                tipo = "B";
+            }
 
             prioridad = 4;
         }
@@ -210,14 +215,17 @@ public class Main {
             "Seleccione el trámite:\n" +
             "1) Depósitos\n" +
             "2) Retiros\n" +
-            "3) Cambio de Divisas",
-            "Trámite", JOptionPane.QUESTION_MESSAGE);
+            "3) Cambio de Divisas");
+            
 
-        if ("1".equals(selTramite))      tramite = "Depósitos";
-        else if ("2".equals(selTramite)) tramite = "Retiros";
-        else if ("3".equals(selTramite)) tramite = "Cambio de Divisas";
-        else {
-            JOptionPane.showMessageDialog(null, "Opción de trámite inválida. Se cancela la creación.", "Error", JOptionPane.ERROR_MESSAGE);
+        if ("1".equals(selTramite)) {
+            tramite = "Depósitos";
+        } else if ("2".equals(selTramite)) {
+            tramite = "Retiros";
+        } else if ("3".equals(selTramite)) {
+            tramite = "Cambio de Divisas";
+        } else {
+            JOptionPane.showMessageDialog(null, "Opción de trámite inválida. Se cancela la creación.");
             return;
         }
 
@@ -309,7 +317,7 @@ public class Main {
 
         // Llamar al siguiente
         if (caja.getCola().esVacia()) {
-            JOptionPane.showMessageDialog(null, "No hay clientes en fila para la Caja " + caja.getNumero() + ".", "Cola Vacía", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay clientes en fila para la Caja " + caja.getNumero() + ".");
         } else {
             String horaAtencion = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             Nodo atendido = caja.atenderSiguiente(horaAtencion);
@@ -318,7 +326,7 @@ public class Main {
                 "Cédula: "     + atendido.getId()     + "\n" +
                 "Trámite: "    + atendido.getTramite() + "\n" +
                 "Hora: "       + horaAtencion,
-                "Atendiendo - Caja " + caja.getNumero(), JOptionPane.INFORMATION_MESSAGE);
+                "Atendiendo - Caja " + caja.getNumero(), 1);
         }
     }
 

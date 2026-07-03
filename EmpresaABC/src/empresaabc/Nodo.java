@@ -20,37 +20,82 @@ public class Nodo {
         this.horaAtencion = horaAtencion;
         this.tramite = tramite;
         this.tipo = tipo;
-        this.prioridad = prioridad;
-        this.sig = null;
+        this.prioridad = prioridad;        
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public int getEdad() { return edad; }
-    public void setEdad(int edad) { this.edad = edad; }
+    public String getId() {
+        return id;
+    }
 
-    public String getHoraCreacion() { return horaCreacion; }
-    public void setHoraCreacion(String horaCreacion) { this.horaCreacion = horaCreacion; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getHoraAtencion() { return horaAtencion; }
-    public void setHoraAtencion(String horaAtencion) { this.horaAtencion = horaAtencion; }
+    public int getEdad() {
+        return edad;
+    }
 
-    public String getTramite() { return tramite; }
-    public void setTramite(String tramite) { this.tramite = tramite; }
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    public String getHoraCreacion() {
+        return horaCreacion;
+    }
 
-    public int getPrioridad() { return prioridad; }
-    public void setPrioridad(int prioridad) { this.prioridad = prioridad; }
+    public void setHoraCreacion(String horaCreacion) {
+        this.horaCreacion = horaCreacion;
+    }
 
-    public Nodo getSig() { return sig; }
-    public void setSig(Nodo sig) { this.sig = sig; }
+    public String getHoraAtencion() {
+        return horaAtencion;
+    }
 
+    public void setHoraAtencion(String horaAtencion) {
+        this.horaAtencion = horaAtencion;
+    }
+
+    public String getTramite() {
+        return tramite;
+    }
+
+    public void setTramite(String tramite) {
+        this.tramite = tramite;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public Nodo getSig() {
+        return sig;
+    }
+
+    public void setSig(Nodo sig) {
+        this.sig = sig;
+    }
+
+    
     @Override
     public String toString() {
         return "  - " + nombre + " | Cédula: " + id + " | Edad: " + edad +
