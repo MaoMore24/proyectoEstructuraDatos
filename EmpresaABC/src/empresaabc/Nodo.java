@@ -9,10 +9,11 @@ public class Nodo {
     private String horaAtencion; // "-1" hasta que sea atendido
     private String tramite;      // Depósitos, Retiros, Cambio de Divisas
     private String tipo;         // P: preferencial, A: un trámite, B: dos o más trámites
+    private String fecha;
     private int prioridad;       // 1=Discapacidad/Embarazo, 2=Adulto Mayor, 3=Empresarial, 4=Regular
     private Nodo sig;
 
-    public Nodo(String nombre, String id, int edad, String horaCreacion, String horaAtencion, String tramite, String tipo, int prioridad) {
+        public Nodo(String nombre, String id, int edad, String horaCreacion, String horaAtencion, String tramite, String tipo, String fecha, int prioridad) {
         this.nombre = nombre;
         this.id = id;
         this.edad = edad;
@@ -20,7 +21,8 @@ public class Nodo {
         this.horaAtencion = horaAtencion;
         this.tramite = tramite;
         this.tipo = tipo;
-        this.prioridad = prioridad;        
+        this.fecha = fecha;
+        this.prioridad = prioridad;
     }
 
     public String getNombre() {
@@ -79,6 +81,14 @@ public class Nodo {
         this.tipo = tipo;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     public int getPrioridad() {
         return prioridad;
     }
@@ -98,8 +108,7 @@ public class Nodo {
     
     @Override
     public String toString() {
-        return "  - " + nombre + " | Cédula: " + id + " | Edad: " + edad +
-               "\n    Trámite: " + tramite + " | Tipo: " + tipo +
-               " | Creado: " + horaCreacion;
+        return "Nodo{" + "nombre=" + nombre + ", id=" + id + ", edad=" + edad + ", horaCreacion=" + horaCreacion + ", horaAtencion=" + horaAtencion + ", tramite=" + tramite + ", tipo=" + tipo + ", fecha=" + fecha + ", prioridad=" + prioridad + ", sig=" + sig + '}';
     }
+    
 }

@@ -1,5 +1,6 @@
 package empresaabc;
 
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -231,7 +232,8 @@ public class Main {
 
         // 6. Crear nodo tiquete
         String horaCreacion = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        Nodo nuevo = new Nodo(nombre.trim(), id.trim(), edad, horaCreacion, "-1", tramite, tipo, prioridad);
+        String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        Nodo nuevo = new Nodo(nombre.trim(), id.trim(), edad, horaCreacion, "-1", tramite, tipo, fecha, prioridad);
 
         // 7. Asignar caja según tipo
         Caja cajaAsignada;
@@ -259,6 +261,7 @@ public class Main {
         tiquete.append("Cédula   : ").append(id.trim()).append("\n");
         tiquete.append("Edad     : ").append(edad).append("\n");
         tiquete.append("Trámite  : ").append(tramite).append(" (Tipo ").append(tipo).append(")\n");
+        tiquete.append("Fecha : ").append(fecha).append("\n");
         tiquete.append("Hora     : ").append(horaCreacion).append("\n");
         tiquete.append("------------------------------------\n");
         tiquete.append("Caja     : ").append(cajaAsignada.getNumero())
