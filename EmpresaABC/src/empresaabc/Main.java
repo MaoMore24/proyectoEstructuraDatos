@@ -253,6 +253,7 @@ public class Main {
 
         int personasDelante = cajaAsignada.getCola().getTamanno();
         cajaAsignada.getCola().encolar(nuevo);
+        
 
         // 8. Imprimir tiquete
         StringBuilder tiquete = new StringBuilder();
@@ -323,11 +324,13 @@ public class Main {
             JOptionPane.showMessageDialog(null, "No hay clientes en fila para la Caja " + caja.getNumero() + ".");
         } else {
             String horaAtencion = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             Nodo atendido = caja.atenderSiguiente(horaAtencion);
             JOptionPane.showMessageDialog(null,
                 "Llamando a: " + atendido.getNombre() + "\n" +
                 "Cédula: "     + atendido.getId()     + "\n" +
                 "Trámite: "    + atendido.getTramite() + "\n" +
+                "Fecha: "      + fecha + "\n" +
                 "Hora: "       + horaAtencion,
                 "Atendiendo - Caja " + caja.getNumero(), 1);
         }
