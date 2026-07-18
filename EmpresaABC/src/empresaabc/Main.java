@@ -56,7 +56,7 @@ public class Main {
 
             intentos--;
             if (intentos > 0) {
-                JOptionPane.showMessageDialog(null, "Credenciales incorrectas. Intentos restantes: ");
+                JOptionPane.showMessageDialog(null, "Credenciales incorrectas. Intentos restantes: " + intentos);
             }
         }
         return false;
@@ -122,7 +122,7 @@ public class Main {
             opcion = JOptionPane.showInputDialog(null,
                 "--- SISTEMA BANCARIO: " + nombreBanco.toUpperCase() + " ---\n\n" +
                 "1) Crear Tiquete\n" +
-                "2) Atender Siguiente Cliente\n" +
+                "2) Tiquete Atendido\n" +
                 "3) Ver Estado de Filas\n" +
                 "4) Salir\n\n" +
                 "Seleccione: ",
@@ -131,9 +131,9 @@ public class Main {
             if (opcion == null) opcion = "4";
 
             switch (opcion) {
-                case "1": modulo1CrearTiquete(); break;
-                case "2": atenderCliente();      break;
-                case "3": verEstadoFilas();       break;
+                case "1": CrearTiquete();       break;
+                case "2": TiqueteAtendido();   break;
+                case "3": verEstadoFilas();             break;
                 case "4": JOptionPane.showMessageDialog(null, "¡Hasta luego!"); break;
                 default:  JOptionPane.showMessageDialog(null, "Seleccione una opción válida.");
             }
@@ -141,7 +141,7 @@ public class Main {
     }
 
     // --- MÓDULO 1.1: CREACIÓN DE TIQUETES ---
-    private static void modulo1CrearTiquete() {
+    private static void CrearTiquete() {
         // 1. Nombre
         String nombre = "";
         while (nombre.trim().isEmpty()) {
@@ -253,22 +253,28 @@ public class Main {
 
         int personasDelante = cajaAsignada.getCola().getTamanno();
         cajaAsignada.getCola().encolar(nuevo);
-        
 
-        // 8. Imprimir tiquete
+        // 8. Módulo 1.2 función 1: si la cola estaba vacía y la caja está libre,
+        //    el cliente pasa a ser atendido de inmediato
+        boolean atencionInmediata = (personasDelante == 0 && !cajaAsignada.esOcupada());
+        if (atencionInmediata) {
+            llamarSiguiente(cajaAsignada);
+        }
+
+        // 9. Imprimir tiquete
         StringBuilder tiquete = new StringBuilder();
         tiquete.append("========= TIQUETE GENERADO =========\n");
         tiquete.append("Cliente  : ").append(nombre.trim()).append("\n");
         tiquete.append("Cédula   : ").append(id.trim()).append("\n");
         tiquete.append("Edad     : ").append(edad).append("\n");
         tiquete.append("Trámite  : ").append(tramite).append(" (Tipo ").append(tipo).append(")\n");
-        tiquete.append("Fecha : ").append(fecha).append("\n");
+        tiquete.append("Fecha    : ").append(fecha).append("\n");
         tiquete.append("Hora     : ").append(horaCreacion).append("\n");
         tiquete.append("------------------------------------\n");
         tiquete.append("Caja     : ").append(cajaAsignada.getNumero())
                .append(" - ").append(cajaAsignada.getDescripcionTipo()).append("\n");
 
-        if (personasDelante == 0 && !cajaAsignada.esOcupada()) {
+        if (atencionInmediata) {
             tiquete.append("¡ES SU TURNO! Pase de inmediato a la caja.\n");
         } else {
             tiquete.append("Personas delante de usted: ").append(personasDelante).append("\n");
@@ -278,9 +284,10 @@ public class Main {
         JOptionPane.showMessageDialog(null, tiquete.toString(), "Tiquete", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // --- ATENDER CLIENTE (necesario para controlar el estado ocupado/libre de cada caja) ---
-    private static void atenderCliente() {
-        StringBuilder sb = new StringBuilder("Seleccione la caja a gestionar:\n\n");
+    // --- MÓDULO 1.2: TIQUETE ATENDIDO ---
+    // Función 2: el cajero indica que terminó de atender; se llama al siguiente de la cola
+    private static void TiqueteAtendido() {
+        StringBuilder sb = new StringBuilder("Seleccione el número de caja:\n\n");
         for (Caja c : cajas) {
             String estado = c.esOcupada() ? "OCUPADA - " + c.getClienteActual().getNombre() : "LIBRE";
             sb.append(c.getNumero()).append(") Caja ").append(c.getNumero())
@@ -288,51 +295,60 @@ public class Main {
               .append(" | En fila: ").append(c.getCola().getTamanno()).append("\n");
         }
 
-        String sel = JOptionPane.showInputDialog(null, sb.toString(), "Atender Cliente", JOptionPane.QUESTION_MESSAGE);
+        String sel = JOptionPane.showInputDialog(null, sb.toString(), "Módulo 1.2 - Tiquete Atendido", JOptionPane.QUESTION_MESSAGE);
         if (sel == null) return;
 
         int numCaja;
         try {
             numCaja = Integer.parseInt(sel.trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un número de caja válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingrese un número de caja válido.");
             return;
         }
 
         if (numCaja < 1 || numCaja > cantCajas) {
-            JOptionPane.showMessageDialog(null, "Número de caja fuera de rango.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Número de caja fuera de rango.");
             return;
         }
 
         Caja caja = cajas[numCaja - 1];
 
-        // Liberar caja si está ocupada
-        if (caja.esOcupada()) {
-            int resp = JOptionPane.showConfirmDialog(null,
-                "Caja " + caja.getNumero() + " está atendiendo a: " + caja.getClienteActual().getNombre() + "\n" +
-                "¿Finalizar atención?",
-                "Liberar Caja", JOptionPane.YES_NO_OPTION);
-            if (resp == JOptionPane.YES_OPTION) {
-                caja.liberarCaja();
-            } else {
-                return;
-            }
+        // Verificar que la caja esté ocupada (hay un cliente siendo atendido)
+        if (!caja.esOcupada()) {
+            JOptionPane.showMessageDialog(null, "La Caja " + caja.getNumero() + " no tiene ningún cliente en atención.");
+            return;
         }
 
-        // Llamar al siguiente
+        // Finalizar atención del cliente actual y liberar la caja
+        JOptionPane.showMessageDialog(null,
+            "Atención finalizada para: " + caja.getClienteActual().getNombre() + "\n" +
+            "Caja " + caja.getNumero() + " liberada.",
+            "Tiquete Atendido", JOptionPane.INFORMATION_MESSAGE);
+        caja.liberarCaja();
+
+        // Llamar al siguiente cliente de la cola si hay alguno
         if (caja.getCola().esVacia()) {
-            JOptionPane.showMessageDialog(null, "No hay clientes en fila para la Caja " + caja.getNumero() + ".");
+            JOptionPane.showMessageDialog(null, "No hay más clientes en fila para la Caja " + caja.getNumero() + ".");
         } else {
-            String horaAtencion = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            Nodo atendido = caja.atenderSiguiente(horaAtencion);
+            llamarSiguiente(caja);
+        }
+    }
+
+    // Desencola al siguiente cliente, le asigna hora de atención y guarda en reportes.
+    // Usado tanto en la atención inmediata (Módulo 1.2 función 1) como en Tiquete Atendido (función 2).
+    private static void llamarSiguiente(Caja caja) {
+        String horaAtencion = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        Nodo siguiente = caja.atenderSiguiente(horaAtencion);
+
+        if (siguiente != null) {
+            archivos.guardarReporte(siguiente, caja.getNumero());
             JOptionPane.showMessageDialog(null,
-                "Llamando a: " + atendido.getNombre() + "\n" +
-                "Cédula: "     + atendido.getId()     + "\n" +
-                "Trámite: "    + atendido.getTramite() + "\n" +
-                "Fecha: "      + fecha + "\n" +
-                "Hora: "       + horaAtencion,
-                "Atendiendo - Caja " + caja.getNumero(), 1);
+                "Llamando a: "  + siguiente.getNombre()  + "\n" +
+                "Cédula: "      + siguiente.getId()      + "\n" +
+                "Trámite: "     + siguiente.getTramite() + "\n" +
+                "Fecha: "       + siguiente.getFecha()   + "\n" +
+                "Hora atención: "+ horaAtencion,
+                "Atendiendo - Caja " + caja.getNumero(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

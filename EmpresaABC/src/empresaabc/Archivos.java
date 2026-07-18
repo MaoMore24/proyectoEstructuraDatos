@@ -46,4 +46,25 @@ public class Archivos {
         }
         return null;
     }
+
+    // Guarda un tiquete atendido en reportes.txt
+    public void guardarReporte(Nodo cliente, int numCaja) {
+        try {
+            FileWriter registro = new FileWriter("reportes.txt", true);
+            registro.write(
+                cliente.getId()          + ";" +
+                cliente.getNombre()      + ";" +
+                cliente.getEdad()        + ";" +
+                cliente.getFecha()       + ";" +
+                cliente.getHoraCreacion()+ ";" +
+                cliente.getHoraAtencion()+ ";" +
+                cliente.getTramite()     + ";" +
+                cliente.getTipo()        + ";" +
+                numCaja                  + "\n"
+            );
+            registro.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar en reportes.txt");
+        }
+    }
 }
